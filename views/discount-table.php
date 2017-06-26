@@ -10,7 +10,7 @@
 	<tbody>
 		<tr>
 			<?php foreach ( $view_data['discounts']['table_body'] as $discount ) : ?>
-				<th><?= $discount; ?></th>
+				<td><?= $discount; ?></td>
 			<?php endforeach; ?>	
 		</tr>
 	</tbody>
