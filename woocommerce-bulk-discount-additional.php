@@ -4,6 +4,7 @@
  * Version: 1.0.0
  * Author: POP Branding
  * Author URI: http://pop-branding.com
+ * Description: Adds dynamic pricing and display of discount at product level for Woocommerce Bulk Discount Additional
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -193,7 +194,7 @@ function wbda_check_plugin_active()
 
 function wbda_admin_notice__warning() {
 	$class = 'notice notice-warning';
-	$message = __( 'This plugin requires WooCommerce Bulk Discount to be active', 'wbda' );
+	$message = __( 'Woocommerce Bulk Discount Additional requires the WooCommerce Bulk Discount plugin to be active', 'wbda' );
 
 	if ( wbda_check_plugin_active() === false )
 		printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) ); 
