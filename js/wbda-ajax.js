@@ -16,7 +16,8 @@ jQuery(document).ready(function($) {
 			url: wbda_ajax.ajaxurl,
 			data: data,
 			success: function(data) {
-				$('#wbda-dynamic-price .woocommerce-Price-amount').html(data);
+				if ( data !== false )
+					$('#wbda-dynamic-price .woocommerce-Price-amount').html(data);
 			}
 		});
 		

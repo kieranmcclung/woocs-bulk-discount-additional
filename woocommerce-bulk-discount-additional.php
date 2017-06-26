@@ -48,31 +48,42 @@ function wbda_get_price( $product_id, $quantity )
 	if ( empty( $discounts ) ) 
 		return false;
 	
-	$i = $selector = 0;
-	$total = $discounts['quantity'];
+	$selector = 0;
+	$i = 0;
+	$total = count( $discounts['quantity'] );
 	foreach ( $discounts['quantity'] as $key => $value )
 	{
-		if ( $value >= $quantity )
+		$i++;
+		if ( $i == $total )
 		{
 			$selector = $key;
-			break;
 		}
-		
-		$i++;
-		
-		if ( $i == $total ) {
-			$selector = $discounts['quantity'][$i];
+		else
+		{
+			if ( $i == 1 && $quantity < $value )
+			{
+				$selector = 0;
+				break;
+			}
+			else
+			{
+				$next_value = $discounts['quantity'][$key+1];
+				if ( $quantity >= $value && $quantity < $next_value )
+				{
+					$selector = $key;
+					break;
+				}
+			}
 		}
 	}
 	
-	if ( $selector == 0 )
-		return false;
-	
-	$discount = $discounts['discount'][$i];
-	
 	$_product = wc_get_product( $product_id );
-	
 	$price = $_product->get_price();
+	
+	if ( $selector === 0 )
+		return wc_price( $price );
+	
+	$discount = $discounts['discount'][$selector];
 	$price -= $discount;
 
 	return wc_price( $price );
@@ -127,20 +138,21 @@ function wbda_price_wrap_start()
 	echo '<div id="wbda-dynamic-price">';
 }
 // Change to 8
-add_action( 'woocommerce_single_product_summary', 'wbda_price_wrap_start', 19 );
+add_action( 'woocommerce_single_product_summary', 'wbda_price_wrap_start', 8 );
 
 function wbda_price_wrap_end()
 {
 	echo '</div>';
 }
 // Change to 12
-add_action( 'woocommerce_single_product_summary', 'wbda_price_wrap_end', 21 );
+add_action( 'woocommerce_single_product_summary', 'wbda_price_wrap_end', 12 );
 
 function wbda_format_discounts( $discounts, $price )
 {
 	$separator = ' - ';
 	$formatted_data = array();
 	$formatted_data['table_header'][0] = '1';
+	$formatted_data['table_body'][0] = wc_price( $price );
 	
 	$i = 1;
 	$total = count( $discounts['quantity'] );
@@ -160,7 +172,7 @@ function wbda_format_discounts( $discounts, $price )
 		$i++;
 	}
 	
-	$i = 0;
+	$i = 1;
 	foreach ( $discounts['discount'] as $discount )
 	{
 		$formatted_data['table_body'][$i] = wc_price( $price - $discount );

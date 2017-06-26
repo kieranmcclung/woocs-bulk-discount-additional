@@ -1,4 +1,4 @@
-<h3><?= $view_data['title']; ?></h3>
+<h3 class="discount-table-header"><?= $view_data['title']; ?></h3>
 <table class="discount-table">
 	<thead>
 		<tr>
