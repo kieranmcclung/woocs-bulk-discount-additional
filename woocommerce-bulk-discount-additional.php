@@ -126,7 +126,7 @@ function wbda_display_discounts()
 		return false;
 	
 	$view_data['discounts'] = wbda_format_discounts( wbda_get_discounts( $product_meta ), $price );
-	$view_data['title'] = _e( 'Quantity Discounts', 'wbda' );
+	$view_data['title'] = __( 'Quantity Discounts', 'wbda' );
 	
 	if ( ! empty( $view_data['discounts'] ) )
 		return include_once( plugin_dir_path( __FILE__ ) . 'views/discount-table.php' );
